@@ -5,21 +5,22 @@ import CoinTile from '../Settings/CoinTile'
 
 const ConinGridStyled = Style.div`
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(230px, 2fr));
     grid-gap: 15px;
+    margin-top: 40px
 `
 
-function getCoinsToDisplay(coinList){
-    return Object.keys(coinList).slice(0, 100)
+function getCoinsToDisplay(coinList, topSection, favorites){
+    return topSection ? favorites : Object.keys(coinList).slice(0, 100)
 }
 
-export default function () {
+export default function ({topSection}) {
     return (
         <AppContext.Consumer>{
-            ({ coinList }) =>
+            ({ coinList, favorites }) =>
                 <ConinGridStyled>
-                    {getCoinsToDisplay(coinList).map(coinKey => 
-                        <CoinTile coinKey = {coinKey}/>)}
+                    {getCoinsToDisplay(coinList, topSection, favorites).map(coinKey => 
+                        <CoinTile key = {coinKey} topSection = {topSection} coinKey = {coinKey}/>)}
                 </ConinGridStyled>
         }
         </AppContext.Consumer>
